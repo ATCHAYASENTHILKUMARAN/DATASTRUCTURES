@@ -1,0 +1,91 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+struct Node* front = NULL;
+struct Node* rear = NULL;
+
+void enqueue(int data) {
+    struct Node* temp = (struct Node*)malloc(sizeof(struct Node));
+    temp->data = data;
+    temp->next = NULL;
+
+    if (front == NULL)
+        front = temp;
+    else
+        rear->next = temp;
+
+    rear = temp;
+}
+
+int dequeue() {
+    int data;
+    struct Node* temp;
+
+    if (front == NULL) {
+        printf("\nQueue is empty!!\n");
+        return -1;
+    } else {
+        temp = front;
+        data = front->data;
+        front = front->next;
+
+        if (front == NULL)
+            rear = NULL;
+
+        free(temp);
+        return data;
+    }
+}
+
+void display() {
+    struct Node* temp = front;
+
+    if (front == NULL) {
+        printf("\nQueue is empty!!\n");
+        return;
+    } else {
+        printf("\nQueue elements are:\n");
+        while (temp!= NULL) {
+            printf("%d ", temp->data);
+            temp = temp->next;
+        }
+    }
+}
+
+int main() {
+    int choice, data;
+
+    while (1) {
+        printf("\n1. Enqueue");
+        printf("\n2. Dequeue");
+        printf("\n3. Display");
+        printf("\n4. Exit");
+        printf("\nEnter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("\nEnter the element to be inserted: ");
+                scanf("%d", &data);
+                enqueue(data);
+                break;
+            case 2:
+                data = dequeue();
+                if (data!= -1)
+                    printf("\nDeleted element: %d", data);
+                break;
+            case 3:
+                display();
+                break;
+            case 4:
+                exit(0);
+            default:
+                printf("\nInvalid choice!! Please choose a valid option.");
+        }
+    }
+}
